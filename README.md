@@ -1,10 +1,27 @@
 # flygeminiv2 notes
 
-- [store](https://www.aliexpress.com/item/3256803350581362.html?spm=a2g0o.store_pc_home.0.0.6312552c92mAaV&gatewayAdapt=4itemAdapt)
-- [github](https://github.com/Mellow-3D/Fly-Gemini-V2)
+- [flygeminiv2 notes](#flygeminiv2-notes)
+- [components](#components)
+  - [core](#core)
+- [creds](#creds)
+- [getting started - klipper with fly firmware](#getting-started---klipper-with-fly-firmware)
+- [references](#references)
+- [physical ports](#physical-ports)
+- [jumpers](#jumpers)
+  - [sw1 (the one near the stepper drivers)](#sw1-the-one-near-the-stepper-drivers)
+  - [sw2 (the one near the usb port)](#sw2-the-one-near-the-usb-port)
+  - [connect stm32 to usb4 port](#connect-stm32-to-usb4-port)
+  - [connect stm32 to core usb1](#connect-stm32-to-core-usb1)
+- [buttons](#buttons)
+  - [K1 reset](#k1-reset)
+  - [k2 uboot](#k2-uboot)
+  - [reset1](#reset1)
+- [usb serial on Core USB](#usb-serial-on-core-usb)
+- [h5 hardware notes](#h5-hardware-notes)
 
-#  words
 
+
+#  components
 |       |                                             |
 | ----- | ------------------------------------------- |
 | Core  | the linux computer part<br>Allwinner H5<br> |
@@ -15,10 +32,10 @@
 - mainline from  4.12 U-Boot v2017.05
 
 # creds
-root:mellow
-fly:mellow
+root:mellow  
+fly:mellow  
 
-# getting started - klipper
+# getting started - klipper with fly firmware
 - board ships blank
 - download SBC (Core) OS and flash to SD card
   - connect to USB3 and boot, you will be dropped into a root prompt
@@ -47,7 +64,7 @@ Bus 008 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
 Bus 005 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
 Bus 007 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
 Bus 004 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
-Bus 006 Device 002: ID 1d50:614e OpenMoko, Inc. stm32f405xx
+Bus 006 Device 002: ID 1d50:614e OpenMoko, Inc. stm32f405xx            # this one
 Bus 006 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
 Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
 Bus 002 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
@@ -55,26 +72,23 @@ Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
 Bus 009 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
 ```
   
-now you can configure klipper
+- now you can configure klipper
+  - serial = /dev/serial/by-id/usb-Klipper_stm32f405xx_2F0048000450314335393220-if00
 
 
+# references
+|                    |                                                                                                                           |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| fly firmware       | https://upyun.pan.zxkxz.cn/IMG/Build/FLY-v2.9_Flygemini_bullseye_current_5.10.85.img.xz                                   |
+| store              | https://www.aliexpress.com/item/3256803350581362.html?spm=a2g0o.store_pc_home.0.0.6312552c92mAaV&gatewayAdapt=4itemAdapt) |
+| github             | https://github.com/Mellow-3D/Fly-Gemini-V2                                                                                |
+| v1 docs            | https://teamgloomy.github.io/fly_gemini_v1.1_connected_sbc.html                                                           |
+| reprap firmware    | https://github.com/TeamGloomy/rrf_stm32_sbc/releases                                                                      |
+| gloomy reprap repo | https://github.com/TeamGloomy/rrf_stm32_sbc.git                                                                           |
+| install example    | https://3dpandme.com/2022/01/03/fly-gemini-klipper-mainsail-install/                                                      |
 
 
-# Firmwares
-|                     |                                                                                         |
-| ------------------- | --------------------------------------------------------------------------------------- |
-| jay_s_uk 04/27/2022 | https://upyun.pan.zxkxz.cn/IMG/Build/FLY-v2.9_Flygemini_bullseye_current_5.10.85.img.xz |
-
-# other references
-|            |                                                                      |
-| ---------- | -------------------------------------------------------------------- |
-| v1         | https://teamgloomy.github.io/fly_gemini_v1.1_connected_sbc.html      |
-| a build    | https://github.com/TeamGloomy/rrf_stm32_sbc/releases                 |
-| gloomy git | https://github.com/TeamGloomy/rrf_stm32_sbc.git                      |
-|            | https://3dpandme.com/2022/01/03/fly-gemini-klipper-mainsail-install/ |
-
-
-# ports
+# physical ports
 
 |      |                                    |                             |         |
 | ---- | ---------------------------------- | --------------------------- | ------- |
@@ -112,26 +126,27 @@ usb port 4 (the one on the right) <-> various things
 | 8      | usb port 4  | usb4 dm   | usb-dm    | 44        | USB-DM/CAN1_RX-PA11 |
 
 ## connect stm32 to usb4 port
-12345678
-00000011
+12345678  
+00000011  
 
 ## connect stm32 to core usb1
-12345678
-00110000
+12345678  
+00110000  
 
 # buttons
 ## K1 reset
-pulls core reset (v6) low
-reset's core CPU
+pulls core reset (v6) low  
+reset's core CPU  
 
 ## k2 uboot
-pulls core reset (w6) low
+pulls core reset (w6) low  
 
+## reset1
+resets the stm32
 
-
-
-
-# usb serial
+# usb serial on Core USB
+ch340 i guess   
+```
 Product ID:	0x7523  
 Vendor ID:	0x1a86  
 Version:	81.32  
@@ -140,11 +155,12 @@ Location ID:	0x00124300 / 11
 Current Available (mA):	500  
 Current Required (mA):	100  
 Extra Operating Current (mA):	0  
+```
 
-# FLY-v2.9_Flygemini_bullseye_current_5.10.85
-- write with etcher
-
-
+# h5 hardware notes
+kernel modules
+```
 mdio_mux               16384  1 dwmac_sun8i
 dwmac-sun8i
 [   18.693303] dwmac-sun8i 1c30000.ethernet eth0: PHY [0.1:01] driver [Generic PHY] (irq=POLL)
+```
